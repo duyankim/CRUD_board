@@ -7,10 +7,10 @@ import kr.ac.kopo.domain.Board;
 
 public class BoardDaoImpl implements BoardDao{
 	public static BoardDaoImpl instance = new BoardDaoImpl();
-
-	private BoardDaoImpl() {
-		
-	}
+	private Connection conn;
+	private PreparedStatement pstmt;
+	private ResultSet rset;
+	
 	
 	public static BoardDaoImpl getInstance() {
 		if (instance == null) {
@@ -19,26 +19,24 @@ public class BoardDaoImpl implements BoardDao{
 		return instance;
 	}
 
+	private BoardDaoImpl() {
+		try {
+			String dbURL = "jdbc:mysql://192.168.23.27:3306/boardsystem";
+			String dbID = "root";
+			String dbPassword = "kopoctc";
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public Board create(Board board) {
 		String sql = "insert into board_table(title) values(?)";
-
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
 		Board b = new Board();
 
 		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://192.168.23.27:3306/boardsystem", 
-					"root", 
-					"kopoctc");
 			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, board.getTitle());
 			pstmt.executeUpdate();
@@ -62,20 +60,6 @@ public class BoardDaoImpl implements BoardDao{
 		String sql = "select * from board_table where id = ?";
 
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-
-		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://192.168.23.27:3306/boardsystem", 
-					"root", 
-					"kopoctc");
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			
@@ -96,23 +80,9 @@ public class BoardDaoImpl implements BoardDao{
 	@Override
 	public List<Board> selectAll() {
 		String sql = "select * from board_table";
-
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
 		Board b;
 
 		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://192.168.23.27:3306/boardsystem", 
-					"root", 
-					"kopoctc");
 			pstmt = conn.prepareStatement(sql);
 			rset = pstmt.executeQuery();
 			
@@ -136,20 +106,6 @@ public class BoardDaoImpl implements BoardDao{
 		String sql = "update board_table(title) set title = ? where id = ?";
 
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-
-		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://192.168.23.27:3306/boardsystem", 
-					"root", 
-					"kopoctc");
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getTitle());
 			pstmt.setInt(2, board.getId());
@@ -174,22 +130,9 @@ public class BoardDaoImpl implements BoardDao{
 		String sql = "delete from board_table where id = ?";
 		String sql2 = "delete from board_item_table where board_id = ?";
 
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		Connection conn = null;
 		PreparedStatement pstmt2 = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
 
 		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://192.168.23.27:3306/pollsystem", 
-					"root", 
-					"kopoctc");
 			pstmt2 = conn.prepareStatement(sql2);
 			pstmt2.setInt(1, board.getId());
 			pstmt2.executeUpdate();
