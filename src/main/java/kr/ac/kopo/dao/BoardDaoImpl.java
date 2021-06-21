@@ -10,7 +10,9 @@ public class BoardDaoImpl implements BoardDao{
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rset;
-	
+	static String dbURL = "jdbc:mysql://192.168.23.27:3306/boardsystem";
+	static String dbID = "root";
+	static String dbPassword = "kopoctc";
 	
 	public static BoardDaoImpl getInstance() {
 		if (instance == null) {
@@ -20,15 +22,7 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	private BoardDaoImpl() {
-		try {
-			String dbURL = "jdbc:mysql://192.168.23.27:3306/boardsystem";
-			String dbID = "root";
-			String dbPassword = "kopoctc";
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 	@Override
@@ -36,6 +30,13 @@ public class BoardDaoImpl implements BoardDao{
 		String sql = "insert into board_table(title) values(?)";
 		Board b = new Board();
 
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		try {
 			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, board.getTitle());
@@ -60,6 +61,13 @@ public class BoardDaoImpl implements BoardDao{
 		String sql = "select * from board_table where id = ?";
 
 		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			
@@ -81,6 +89,13 @@ public class BoardDaoImpl implements BoardDao{
 	public List<Board> selectAll() {
 		String sql = "select * from board_table";
 		Board b;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -101,10 +116,45 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	@Override
+	public List<String> selectAllTitles() throws Exception {
+		String sql = "select title from board_table";
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			List<String> titles = new ArrayList<String>();
+			while(rset.next()) {
+				titles.add(rset.getString("title"));
+			}
+			return titles;
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			throw new IllegalStateException(e1);
+		} finally {
+			close(conn, pstmt, rset);
+		}
+	}
+
+	@Override
 	public Board update(Board board) {
 		// 바뀐 제목 + 바꾸고 싶은 아이디를 객체로!
 		String sql = "update board_table(title) set title = ? where id = ?";
 
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getTitle());
@@ -132,6 +182,13 @@ public class BoardDaoImpl implements BoardDao{
 
 		PreparedStatement pstmt2 = null;
 
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		try {
 			pstmt2 = conn.prepareStatement(sql2);
 			pstmt2.setInt(1, board.getId());
