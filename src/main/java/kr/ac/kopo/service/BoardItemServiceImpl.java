@@ -1,5 +1,7 @@
 package kr.ac.kopo.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import kr.ac.kopo.dao.*;
@@ -21,13 +23,20 @@ public class BoardItemServiceImpl implements BoardItemService {
 	}
 
 	@Override
-	public void create(BoardItem boardItem) {
-		dao.create(boardItem);
+	public BoardItem create(String author, String title, String content) {
+		BoardItem boardItem = new BoardItem(author, title, content);
+		return dao.create(boardItem);
+	}
+	
+	@Override
+	public BoardItem create(BoardItem boardItem) {
+		return dao.create(boardItem);
 	}
 
 	@Override
-	public void update(BoardItem boardItem) {
-		dao.update(boardItem);
+	public BoardItem update(String author, String title, String content) {
+		BoardItem boardItem = new BoardItem(author, title, content);
+		return dao.update(boardItem);
 	}
 
 	@Override
@@ -36,18 +45,34 @@ public class BoardItemServiceImpl implements BoardItemService {
 	}
 
 	@Override
-	public Optional<BoardItem> viewOne(int id) {
-		return dao.selectOne(id);
+	public BoardItem viewOne(int post_id) {
+		return dao.selectOne(post_id).get();
 	}
 
 	@Override
 	public List<BoardItem> viewAll(int board_id) {
 		return dao.selectAll(board_id);
 	}
+	
+	@Override
+	public List<BoardItem> viewAll() {
+		return dao.selectAll();
+	}
 
 	@Override
-	public List<BoardItem> selectOnePageResult(int board_id, int page_num) {
+	public List<BoardItem> viewOnePageResult(int board_id, int page_num) {
 		return dao.selectOnePageResult(board_id, page_num);
 	}
 
+	@Override
+	public int newPostId() throws Exception {
+		return dao.newPostId();
+	}
+
+	@Override
+	public String getCurrentDate() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		return dateFormat.format(date);
+	}
 }
