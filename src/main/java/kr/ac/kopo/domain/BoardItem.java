@@ -3,39 +3,47 @@ package kr.ac.kopo.domain;
 import java.sql.Date;
 
 public class BoardItem {
-	private int id, parent_id;
+	private int id, board_id, parent_id;
 	private Date date;
 	private String title, content, author;
-	private int relevel, viewcnt;
+	private int relevel, reorder, viewcnt;
 	
 	public BoardItem() {
 		
-	}
-
-	public BoardItem(int parent_id, String title, String content, String author, int relevel, int viewcnt) {
-		this.parent_id = parent_id;
-		this.title = title;
-		this.content = content;
-		this.author = author;
-		this.relevel = relevel;
-		this.viewcnt = viewcnt;
-	}
-
-	public BoardItem(int id, Date date, String title, String content, String author, int parent_id, int relevel, int viewcnt) {
-		this.id = id;
-		this.date = date;
-		this.parent_id = parent_id;
-		this.title = title;
-		this.content = content;
-		this.author = author;
-		this.relevel = relevel;
-		this.viewcnt = viewcnt;
 	}
 	
 	public BoardItem(String author, String title, String content) {
 		this.author = author;
 		this.title = title;
 		this.content = content;
+	}
+	
+	public BoardItem(String author, String title, String content, int board_id) {
+		this.author = author;
+		this.title = title;
+		this.content = content;
+		this.board_id = board_id;
+	}
+	
+	public BoardItem(int board_id, String title, String content, String author, int relevel, int viewcnt) {
+		this.board_id = board_id;
+		this.title = title;
+		this.content = content;
+		this.author = author;
+		this.relevel = relevel;
+		this.viewcnt = viewcnt;
+	}
+
+	public BoardItem(int id, Date date, String title, String content, String author, int board_id, int relevel, int reorder, int viewcnt) {
+		this.id = id;
+		this.date = date;
+		this.board_id = board_id;
+		this.title = title;
+		this.content = content;
+		this.author = author;
+		this.relevel = relevel;
+		this.reorder = reorder;
+		this.viewcnt = viewcnt;
 	}
 	
 	public int getId() {
@@ -70,6 +78,14 @@ public class BoardItem {
 		this.content = content;
 	}
 
+	public int getBoard_id() {
+		return board_id;
+	}
+
+	public void setBoard_id(int board_id) {
+		this.board_id = board_id;
+	}
+
 	public int getParent_id() {
 		return parent_id;
 	}
@@ -92,6 +108,14 @@ public class BoardItem {
 
 	public void setRelevel(int relevel) {
 		this.relevel = relevel;
+	}
+
+	public int getReorder() {
+		return reorder;
+	}
+
+	public void setReorder(int reorder) {
+		this.reorder = reorder;
 	}
 
 	public int getViewcnt() {
