@@ -1,0 +1,66 @@
+body {
+    
+}
+
+.card {
+    border: none;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: #F4F4F4;
+}
+
+img {
+    border-radius: 10px;
+    padding-right: 5px;
+    width: 60px;
+    height: 55px;
+}
+
+img:hover {
+    cursor: pointer;
+}
+
+.round .align-self-start {
+    border-radius: 100%;
+    width: 45px;
+    height: 40px;
+}
+
+.media .comment {
+    background: #F4F4F4;
+    border: none;
+    border-radius: 10px;
+}
+
+.user {
+    color: #5C5C5C;
+    font-size: 15px;
+    padding-left: 15px;
+    margin-bottom: 0;
+}
+
+.user:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+p.text {
+    color: #8A8A8A;
+    font-size: 14px;
+    margin: 0px;
+}
+
+.ml-auto {
+    margin-right: 10px;
+}
+
+p .reply {
+    color: #5C5C5C;
+    font-size: 15px;
+}
+
+@media screen and (min-width: 576px) {
+    .comment {
+        width: 470px;
+    }
+}
