@@ -23,8 +23,8 @@ public class BoardItemServiceImpl implements BoardItemService {
 	}
 
 	@Override
-	public BoardItem create(String author, String title, String content) {
-		BoardItem boardItem = new BoardItem(author, title, content);
+	public BoardItem create(String author, String title, String content, int board_id) {
+		BoardItem boardItem = new BoardItem(author, title, content, board_id);
 		return dao.create(boardItem);
 	}
 	
@@ -40,8 +40,8 @@ public class BoardItemServiceImpl implements BoardItemService {
 	}
 
 	@Override
-	public void delete(BoardItem boardItem) {
-		dao.delete(boardItem);
+	public void delete(int post_id) {
+		dao.delete(viewOne(post_id));
 	}
 
 	@Override
@@ -74,5 +74,10 @@ public class BoardItemServiceImpl implements BoardItemService {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
 		return dateFormat.format(date);
+	}
+
+	@Override
+	public int findBoardIdByPostId(int post_id) throws Exception {
+		return dao.findBoardIdByPostId(post_id);
 	}
 }
