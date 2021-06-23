@@ -79,30 +79,32 @@
                 for (int j = 0; j < posts.size(); j++) {
                 	BoardItem item = posts.get(j);
                 	String preview;
+                	int end;
                 	if (item.getContent() != null) {
-                		preview = item.getContent().substring(0, 50);
+                		if (item.getContent().length() > 50) {
+                			end = 50;
+                		} else {
+                			end = item.getContent().length();
+                		}
+                		preview = item.getContent().substring(0, end);
                 	} else {
                 		preview = "";
                 	}
-                %>
-                    <div class="post-preview">
-                        <a href="postview.jsp?board=<%= boardid%>&post=<%= item.getId()%>">
-                            <h2 class="post-title"><%= item.getTitle() %></h2>
-                            <h3 class="post-subtitle"><%= preview %>...</h3>
-                        </a>
-                        <p class="post-meta">
-                            Posted by
-                            <span><%= item.getAuthor()%></span>
-                            on <%= item.getDate() %>
-                        </p>
-                    </div>
-                <%
-                    if (j != posts.size()-1) {
-                %>
-                    <hr />
-                <%
-                    }
-                }
+                	
+                	out.println("<div class='post-preview'>");
+                	out.println("<a href='postview.jsp?board=" + boardid + "&post=" + item.getId() +"'>");
+                	out.println("<h2 class='post-title'>" + item.getTitle() +"</h2>");
+                	out.println("<h3 class='post-subtitle'>"+ preview +"...</h3>");
+                	out.println("</a>");
+                	out.println("<p class='post-meta'>Posted by");
+                	out.println("<span>" + item.getAuthor() +"</span>");
+                	out.println("on "+ item.getDate());
+                	out.println("</p>");
+                	out.println("</div>");
+	                if (j != posts.size()-1) {
+	                	out.println("<hr />");
+	                    }
+	                }
                 %>
                 </div>
             </div>
@@ -111,8 +113,11 @@
 		<!-- Buttons -->
 		<div class="container">
 			<div class="d-flex justify-content-end">
-				<div class="btn-group" role="group" aria-label="Basic example" >
-				  <button type="button" class="btn btn-primary" onclick="location.href='write.jsp?board=<%= boardid%>'">write post</button>
+				<div class="btn-group" role="group" aria-label="" >
+				  <button type="button" class="btn btn-primary" 
+				  		onclick="location.href='write.jsp?board=<%= boardid%>'">
+				  	write post
+				  </button>
 				</div>
 			</div>
 		</div>
@@ -121,19 +126,25 @@
         <!-- Pagination-->
         <div class="container">
 			<nav aria-label="Page navigation">
-			  <ul class="pagination justify-content-center">
-			    <li class="page-item disabled">
-			      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-			    </li>
-			    <li class="page-item"><a class="page-link" href="postlist.jsp?board=<%= boardid%>&page=<%= pagenum%>"><%= pagenum%></a></li>
-			    <li class="page-item"><a class="page-link" href="postlist.jsp?board=<%= boardid%>&page=<%= pagenum+1%>"><%= pagenum+1%></a></li>
-			    <li class="page-item"><a class="page-link" href="postlist.jsp?board=<%= boardid%>&page=<%= pagenum+2%>"><%= pagenum+2%></a></li>
-			    <li class="page-item">
-			      <a class="page-link" href="#" aria-label="Next">
-			        <span aria-hidden="true">&raquo;</span>
-			      </a>
-			    </li>
-			  </ul>
+				  <ul class="pagination justify-content-center">
+				    <li class="page-item disabled">
+				      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+				    </li>
+				    <li class="page-item">
+				    	<a class="page-link" href="postlist.jsp?board=<%= boardid%>&page=<%=pagenum%>"><%= pagenum %></a>
+				    </li>
+				    <li class="page-item">
+				    	<a class="page-link" href="postlist.jsp?board=<%= boardid%>&page=<%=pagenum+1%>"><%= pagenum+1 %></a>
+				    </li>
+				    <li class="page-item">
+				    	<a class="page-link" href="postlist.jsp?board=<%= boardid%>&page=<%=pagenum+2%>"><%= pagenum+2 %></a>
+				    </li>
+				    <li class="page-item">
+				      <a class="page-link" href="#" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>
+				  </ul>
 			</nav>
 		</div>
         
