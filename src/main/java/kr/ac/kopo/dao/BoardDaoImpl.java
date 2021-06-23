@@ -27,7 +27,7 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public Board create(Board board) {
-		String sql = "insert into board_table(title) values(?)";
+		String sql = "insert into board(title) values(?)";
 		Board b = new Board();
 
 		try {
@@ -58,7 +58,7 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public Optional<Board> selectOne(int id) {
-		String sql = "select * from board_table where id = ?";
+		String sql = "select * from board where id = ?";
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -87,7 +87,7 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public List<Board> selectAll() {
-		String sql = "select * from board_table";
+		String sql = "select * from board";
 		Board b;
 		
 		try {
@@ -117,7 +117,7 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public List<String> selectAllTitles() throws Exception {
-		String sql = "select title from board_table";
+		String sql = "select title from board";
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -145,8 +145,7 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public Board update(Board board) {
-		// 바뀐 제목 + 바꾸고 싶은 아이디를 객체로!
-		String sql = "update board_table(title) set title = ? where id = ?";
+		String sql = "update board(title) set title = ? where id = ?";
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -177,8 +176,8 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public void delete(Board board) {
-		String sql = "delete from board_table where id = ?";
-		String sql2 = "delete from board_item_table where board_id = ?";
+		String sql = "delete from board where id = ?";
+		String sql2 = "delete from board_item where board_id = ?";
 
 		PreparedStatement pstmt2 = null;
 
