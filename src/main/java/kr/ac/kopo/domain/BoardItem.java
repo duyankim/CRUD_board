@@ -25,13 +25,12 @@ public class BoardItem {
 		this.board_id = board_id;
 	}
 	
-	public BoardItem(int board_id, String title, String content, String author, int relevel, int viewcnt) {
+	public BoardItem(int parent_id, int board_id, String content, String author, int relevel) {
+		this.parent_id = parent_id;
 		this.board_id = board_id;
-		this.title = title;
 		this.content = content;
 		this.author = author;
 		this.relevel = relevel;
-		this.viewcnt = viewcnt;
 	}
 
 	public BoardItem(int id, Date date, String title, String content, String author, int board_id, int relevel, int reorder, int viewcnt) {
