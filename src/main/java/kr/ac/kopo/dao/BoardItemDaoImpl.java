@@ -56,6 +56,52 @@ public class BoardItemDaoImpl implements BoardItemDao {
 			close(conn, pstmt, rset);
 		}
 	}
+	
+	@Override
+	public BoardItem createComment(BoardItem boardItem) {
+		String sql = "insert into board_item(date, author, content, board_id, parent_id, relevel) values(now(), ?, ?, ?, ?, ?)";
+		String sql2 = "update board_item set reorder = ? where id = ?";
+		
+		PreparedStatement pstmt2 = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, boardItem.getAuthor());
+			pstmt.setString(2, boardItem.getContent());
+			pstmt.setInt(3, boardItem.getBoard_id());
+			pstmt.setInt(4, boardItem.getParent_id());
+			pstmt.setInt(5, boardItem.getRelevel());
+			pstmt.executeUpdate();
+			rset = pstmt.getGeneratedKeys();
+
+			if (rset.next()) {
+				boardItem.setId(rset.getInt(1));
+			} else {
+				throw new SQLException("id가 존재하지 않습니다.");
+			}
+			
+			pstmt2 = conn.prepareStatement(sql2);
+			pstmt2.setInt(1, findReorderNum(boardItem.getParent_id(), boardItem.getRelevel()));
+			pstmt2.setInt(2, boardItem.getId());
+			pstmt.executeUpdate();
+			return boardItem;
+		} catch (Exception e1) {
+			throw new IllegalStateException(e1);
+		} finally {
+			try {
+				pstmt2.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			close(conn, pstmt, rset);
+		}
+	}
 
 	@Override
 	public Optional<BoardItem> selectOne(int post_id) {
@@ -319,6 +365,40 @@ public class BoardItemDaoImpl implements BoardItemDao {
 			close(conn, pstmt, rset);
 		}
 	}
+
+	@Override
+	public int findReorderNum(int parent_id, int relevel) throws Exception {
+		String sql = "select max(reorder) from board_item where parent_id=? and relevel=?";
+		int reorderNum;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			pstmt.setInt(1, parent_id);
+			pstmt.setInt(2, relevel);
+			pstmt.executeUpdate();
+			rset = pstmt.executeQuery();
+
+			if (!rset.next()) {
+				reorderNum = 0;
+			} else if (rset.next()) {
+				reorderNum = rset.getInt(1); 
+			} else {
+				throw new SQLException("id가 존재하지 않습니다.");
+			}	
+			return reorderNum+1;
+		} catch (Exception e1) {
+			throw new IllegalStateException(e1);
+		} finally {
+			close(conn, pstmt, rset);
+		}
+	}
 	
 	private void close(Connection conn, PreparedStatement pstmt, ResultSet rset) {
 		try {
@@ -341,6 +421,47 @@ public class BoardItemDaoImpl implements BoardItemDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public List<BoardItem> selectAllComment(int parent_id) throws Exception {
+		String sql = "SELECT * FROM board_item where parent_id = ?";
+		
+		List<BoardItem> items = new ArrayList<BoardItem>();
+		BoardItem item = new BoardItem();
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, parent_id);
+			pstmt.executeUpdate();
+			rset = pstmt.executeQuery();
+			
+			while (rset.next()) {
+				item.setId(rset.getInt(1));
+				item.setDate(rset.getDate(2));
+				item.setTitle(rset.getString(3));
+				item.setContent(rset.getString(4));
+				item.setAuthor(rset.getString(5));
+				item.setBoard_id(rset.getInt(6));
+				item.setParent_id(rset.getInt(7));
+				item.setRelevel(rset.getInt(8));
+				item.setReorder(rset.getInt(9));
+				item.setViewcnt(rset.getInt(10));
+				items.add(item);
+			}
+			return items;
+		} catch (Exception e1) {
+			throw new IllegalStateException(e1);
+		} finally {
+			close(conn, pstmt, rset);
 		}
 	}
 }
