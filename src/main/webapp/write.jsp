@@ -69,7 +69,7 @@
                 <form class="writeForm" method="post" name="writeForm">
 		            <div class="form-group">
 		                <label for="name">Name</label>
-		                <input type="text" class="form-control" name="author" placeholder="Your name">
+		                <input type="text" class="form-control" name="author" placeholder="Your name" required>
 		            </div>
 		            
 		            <div class="form-group">
@@ -84,12 +84,12 @@
 		
 		            <div class="form-group">
 		              <label>Title</label>
-		              <input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
+		              <input type="text" class="form-control" id="title" name="title" placeholder="Enter title" required>
 		            </div>
 		
 		            <div class="form-group">
 		              <label>Content</label>
-		              <textarea id="editor" name="content" id="content"></textarea>
+		              <textarea id="editor" name="content" id="content" required></textarea>
 		            </div>
 		            
 		            <input type="text" name="action" value="insert" class="d-none">

@@ -71,7 +71,7 @@
                 <form class="writeForm" method="post" id="updateForm">
 		            <div class="form-group">
 		                <label for="name">Name</label>
-		                <input type="text" class="form-control" id="author" name="author" placeholder="<%= updateItem.getAuthor()%>">
+		                <input type="text" class="form-control" id="author" name="author" placeholder="<%= updateItem.getAuthor()%>" required>
 		            </div>
 		            
 		            <div class="form-group">
@@ -86,12 +86,12 @@
 		
 		            <div class="form-group">
 		              <label for="title">Title</label>
-		              <input type="text" class="form-control" id="title" name="title" placeholder="<%= updateItem.getTitle()%>">
+		              <input type="text" class="form-control" id="title" name="title" placeholder="<%= updateItem.getTitle()%>" required>
 		            </div>
 		
 		            <div class="form-group">
 		              <label>Content</label>
-		              <textarea id="editor" name="content" id="content" value="<%= updateItem.getContent()%>"></textarea>
+		              <textarea id="editor" name="content" id="content" value="<%= updateItem.getContent()%>" required></textarea>
 		            </div>
 		            
 		            <input type="text" name="action" value="update" class="d-none">

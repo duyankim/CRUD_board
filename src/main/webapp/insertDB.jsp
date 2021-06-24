@@ -82,7 +82,7 @@
                 <form class="writeForm" method="post" name="insertForm" id="insertForm" action="update.jsp">
 		            <div class="form-group">
 		                <label for="name">Name</label>
-		                <input type="text" class="form-control" name="author" value="<%= item.getAuthor()%>" readonly>
+		                <input type="text" class="form-control" name="author" value="<%= item.getAuthor()%>" readonly >
 		            </div>
 		            
 		            <div class="form-group">

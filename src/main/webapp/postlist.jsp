@@ -25,6 +25,8 @@
 	int pagenum = pagenumS == null ? 1 : Integer.parseInt(pagenumS);
 	int boardid = boardidS == null ? 1 : Integer.parseInt(boardidS);
 	int postid = postidS == null ? 1 : Integer.parseInt(postidS);
+	int previous = pagenum != 1 ? pagenum - 1 : 1;
+	int next = pagenum + 3;
 	
 	BoardService bs = BoardServiceImpl.getInstance();
 	String[] boardTitles = bs.viewAllTitles();
@@ -128,7 +130,7 @@
 			<nav aria-label="Page navigation">
 				  <ul class="pagination justify-content-center">
 				    <li class="page-item disabled">
-				      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+				      <a class="page-link" href="postlist.jsp?board=<%= boardid%>&page=<%=previous%>" tabindex="-1" aria-disabled="true">Previous</a>
 				    </li>
 				    <li class="page-item">
 				    	<a class="page-link" href="postlist.jsp?board=<%= boardid%>&page=<%=pagenum%>"><%= pagenum %></a>
@@ -140,7 +142,7 @@
 				    	<a class="page-link" href="postlist.jsp?board=<%= boardid%>&page=<%=pagenum+2%>"><%= pagenum+2 %></a>
 				    </li>
 				    <li class="page-item">
-				      <a class="page-link" href="#" aria-label="Next">
+				      <a class="page-link" href="postlist.jsp?board=<%= boardid%>&page=<%=next%>" aria-label="Next">
 				        <span aria-hidden="true">&raquo;</span>
 				      </a>
 				    </li>
