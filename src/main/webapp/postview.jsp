@@ -1,4 +1,4 @@
-<%@ page import = "java.util.*, java.net.*" %>
+<%@ page import = "java.util.*, java.net.*, java.util.stream.Collectors" %>
 <%@page import="kr.ac.kopo.domain.*, kr.ac.kopo.dao.*, kr.ac.kopo.service.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -14,12 +14,18 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="./assets/css/styles.css" rel="stylesheet" />
+    <link href="./assets/css/viewComment.css" rel="stylesheet" />
+    <link href="./assets/css/writeComment.css" rel="stylesheet" /> 
 </head>
 <body>
 
 	<%
 	String pagenumS = request.getParameter("page");
 	String postidS = request.getParameter("post");
+	String comAuthorS = request.getParameter("comAuthor");
+	String comContentS = request.getParameter("comContent");
+	String comLevelS = request.getParameter("comLevel");
+	
 	int pagenum = pagenumS == null ? 1 : Integer.parseInt(pagenumS);
 	int postid = postidS == null ? 1 : Integer.parseInt(postidS);
 	
@@ -28,7 +34,10 @@
 	
 	BoardItemService bis = BoardItemServiceImpl.getInstance();
 	BoardItem item = bis.viewOne(postid);
-
+	String currDate = bis.getCurrentDate();
+	%>
+	
+	
 	%>
 	
         <!-- Navigation-->
@@ -82,7 +91,52 @@
             </div>
         </article>
         <hr />
+        
+        <!-- Comment -->
+	    <Section>
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-lg-8 col-md-10 mx-auto">
+	                    <!--comment item-->
 
+	                 <!--comment writer-->
+					 <form class="form-block">
+						<div class="row mt-5">
+							<div class="col-xs-12 col-sm-6">
+								<div class="form-group fl_icon">
+									<div class="icon"><i class="fa fa-user"></i></div>
+									<input class="form-input" type="text" placeholder="Your name" name="comAuthor" required>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-6 fl_icon">
+								<div class="form-group fl_icon">
+									<div class="icon"><i class="far fa-calendar-check"></i></div>
+									<input class="form-input" type="text" placeholder="<%=currDate%>" readonly>
+									<input type="text" name="comRelevel" value="1" class="d-none">
+								</div>
+							</div>
+							<div class="col-lg-12 mx-auto">									
+								<div class="form-group">
+									<textarea class="form-input" required name="comContent" placeholder="Your comment"></textarea>
+								</div>
+							</div>
+							<div class="container mb-3">
+								<div class="d-flex justify-content-end">
+									<div class="btn-group" role="group" aria-label="" >
+									  <button type="button" class="btn btn-primary" 
+									  		 value="submit" formaction="postview.jsp?post=<%= postid%>">
+									  	write comment
+									  </button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+	                </div>
+	            </div>
+	        </div>
+	    </Section>
+	    <hr/>
         
         <!-- Footer-->
         <footer>
