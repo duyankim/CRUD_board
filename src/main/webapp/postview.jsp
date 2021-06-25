@@ -37,9 +37,6 @@
 	String currDate = bis.getCurrentDate();
 	%>
 	
-	
-	%>
-	
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
             <div class="container">
@@ -98,7 +95,27 @@
 	            <div class="row">
 	                <div class="col-lg-8 col-md-10 mx-auto">
 	                    <!--comment item-->
-
+	                    <%
+						List<BoardItem> comments = bis.viewAllComment(postid); 
+	                    for (BoardItem com : comments) {
+		                    out.println("<div class='card mt-3'>");
+		                    out.println("<li class='media'>");
+		                    out.println("<span class='round'>");
+		                    out.println("<img src='https://www.htmlcsscolor.com/preview/gallery/BFE5D9.png' class='align-self-start mr-3'>");
+		                    out.println("</span>");
+		                    out.println("<div class='media-body'>");
+		                    out.println("<div class='row d-flex'>");
+		                    out.println("<h6 class='user'>"+ com.getAuthor() + "</h6>");
+		                    out.println("<div class='ml-auto'>");
+		                    out.println("<p class='text'>"+ com.getDate() +"</p>");
+		                    out.println("</div>");
+		                    out.println("</div>");
+		                    out.println("<p class='text'>"+ com.getContent() +"</p>");
+		                    out.println("</div>");
+		                    out.println("</li>");
+		                    out.println("</div>");
+	                    }
+	                    %>
 	                 <!--comment writer-->
 					 <form class="form-block">
 						<div class="row mt-5">
