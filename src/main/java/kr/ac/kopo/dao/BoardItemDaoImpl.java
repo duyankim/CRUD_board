@@ -441,7 +441,6 @@ public class BoardItemDaoImpl implements BoardItemDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, parent_id);
-			pstmt.executeUpdate();
 			rset = pstmt.executeQuery();
 			
 			while (rset.next()) {
