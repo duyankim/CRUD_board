@@ -15,7 +15,8 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="./assets/css/styles.css" rel="stylesheet" />
     <link href="./assets/css/viewComment.css" rel="stylesheet" />
-    <link href="./assets/css/writeComment.css" rel="stylesheet" /> 
+    <link href="./assets/css/writeComment.css" rel="stylesheet" />
+    <link href="./assets/css/search.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -54,7 +55,12 @@
                         }
                         %>
                     </ul>
+<div class="searchbar">
+          <input class="search_input" type="text" name="" placeholder="Search...">
+          <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+        </div>
                 </div>
+
             </div>
         </nav>
         
