@@ -180,11 +180,8 @@ public class BoardItemDaoImpl implements BoardItemDao {
 	
 	@Override
 	public List<BoardItem> selectAll() {
-		String sql = "SELECT * FROM board_item";
+		String sql = "SELECT * FROM board_item where title is not null";
 		
-		List<BoardItem> items = new ArrayList<BoardItem>();
-		BoardItem item = new BoardItem();
-
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
@@ -195,8 +192,11 @@ public class BoardItemDaoImpl implements BoardItemDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rset = pstmt.executeQuery();
+			List<BoardItem> items = new ArrayList<BoardItem>();
+			BoardItem item;
 			
 			while (rset.next()) {
+				item = new BoardItem();
 				item.setId(rset.getInt(1));
 				item.setDate(rset.getDate(2));
 				item.setTitle(rset.getString(3));
@@ -219,7 +219,7 @@ public class BoardItemDaoImpl implements BoardItemDao {
 	
 	@Override
 	public List<BoardItem> selectOnePageResult(int board_id, int page_num) {
-		String sql = "select id, date, title, content, author from board_item where board_id=? limit ?, ?;";
+		String sql = "select id, date, title, content, author from board_item where board_id=? and parent_id is null limit ?, ?;";
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
