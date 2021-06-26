@@ -19,4 +19,5 @@ public interface BoardItemService {
 	int newPostId() throws Exception;
 	int findBoardIdByPostId(int post_id) throws Exception;
 	List<BoardItem> viewRelevelComments(int relevel, int post_id) throws Exception;
+	List<BoardItem> viewSearchPost(String word) throws Exception;
 }

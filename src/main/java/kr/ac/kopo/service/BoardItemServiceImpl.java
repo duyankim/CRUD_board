@@ -94,6 +94,7 @@ public class BoardItemServiceImpl implements BoardItemService {
 		return dao.selectAllComment(parent_id);
 	}
 	
+	@Override
 	public List<BoardItem> viewRelevelComments(int relevel, int post_id) {
 		List<BoardItem> comments = null;
 		try {
@@ -103,5 +104,16 @@ public class BoardItemServiceImpl implements BoardItemService {
 		}
 		List<BoardItem> relevelComments = comments.stream().filter(c -> c.getRelevel() == 1).collect(Collectors.toList());
 		return relevelComments;
+	}
+
+	@Override
+	public List<BoardItem> viewSearchPost(String word) throws Exception {
+		List<BoardItem> allPosts = dao.selectAll();
+		List<BoardItem> matchedPosts = allPosts.stream()
+				.filter(p -> 
+						p.getTitle().toUpperCase()
+						.contains(word.toUpperCase())
+				).collect(Collectors.toList());
+		return matchedPosts;
 	}
 }
