@@ -1,6 +1,60 @@
 # CRUD_board
 [mini project] java 게시판 만들기
 
+## 폴더 구조
+```
+src
+└─main
+    ├─java
+    │  └─kr
+    │      └─ac
+    │          └─kopo
+    │              ├─dao
+    │              │      BoardDao.java
+    │              │      BoardDaoImpl.java
+    │              │      BoardItemDao.java
+    │              │      BoardItemDaoImpl.java
+    │              │
+    │              ├─domain
+    │              │      Board.java
+    │              │      BoardItem.java
+    │              │
+    │              └─service
+    │                      BoardItemService.java
+    │                      BoardItemServiceImpl.java
+    │                      BoardService.java
+    │                      BoardServiceImpl.java
+    │
+    └─webapp
+        │  delete.jsp
+        │  index.jsp
+        │  insertDB.jsp
+        │  postlist.jsp
+        │  postview.jsp
+        │  search.jsp
+        │  update.jsp
+        │  write.jsp
+        │
+        ├─assets
+        │  ├─css
+        │  │      search.css
+        │  │      styles.css
+        │  │      viewComment.css
+        │  │      writeComment.css
+        │  │
+        │  └─js
+        │          form.js
+        │          scripts.js
+        │          textEditor.js
+        │
+        ├─META-INF
+        │      MANIFEST.MF
+        │
+        └─WEB-INF
+            └─lib
+                    mysql-connector-java-8.0.23.jar
+```
+
 ## 구현 화면
 ### 게시판 리스트 조회
 ![1](https://user-images.githubusercontent.com/46421950/123925332-c4e41a00-d9c5-11eb-857e-b4f7ba93d827.png)
